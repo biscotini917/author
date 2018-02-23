@@ -1,15 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { login as loginFromReducer } from '../redux/auth';
 
 /* -----------------    COMPONENT     ------------------ */
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
     this.onLoginSubmit = this.onLoginSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value})
   }
 
   render() {
+    console.log(this.state, 'current state')
     const { message } = this.props;
     return (
       <div className="signin-container">
@@ -21,6 +32,8 @@ class Login extends React.Component {
                 name="email"
                 type="email"
                 className="form-control"
+                onChange={this.handleChange}
+                value={this.state.email}
                 required
               />
             </div>
@@ -30,6 +43,8 @@ class Login extends React.Component {
                   name="password"
                   type="password"
                   className="form-control"
+                  onChange={this.handleChange}
+                  value={this.state.password}
                   required
                 />
             </div>
@@ -58,14 +73,23 @@ class Login extends React.Component {
 
   onLoginSubmit(event) {
     event.preventDefault();
-    const { message } = this.props;
-    console.log(`${message} isn't implemented yet`);
+    this.props.login({
+      email: event.target.email.value,
+      password: event.target.password.value
+    })
+
+    this.setState({
+      email: '',
+      password: ''
+    })
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Log in' });
-const mapDispatch = null;
+const mapDispatch = (dispatch, ownProps) => ({
+  login: credentials => dispatch(loginFromReducer(credentials, ownProps.history))
+});
 
 export default connect(mapState, mapDispatch)(Login);

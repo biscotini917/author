@@ -8,6 +8,11 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.onSignupSubmit = this.onSignupSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({[event.target.name]: event.target.value})
   }
 
   render() {
@@ -22,6 +27,7 @@ class Signup extends React.Component {
                 name="email"
                 type="email"
                 className="form-control"
+                onChange={this.handleChange}
                 required
               />
             </div>

@@ -1,0 +1,6 @@
+curl http://localhost:8080/login -X POST -d '{"email": "kate@kate.kate", "password": "7890"}' -H "Content-Type: application/json" --cookie-jar cookiesFile.txt
+
+curl http://localhost:8080/ --cookie cookiesFile.txt
+
+
+curl http://localhost:8080/login -X POST -d '{"email": "doesnotexist@email.com", "password": "abcdefg"}' -H "Content-Type: application/json" --cookie-jar cookiesFile.txt
