@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
+import { removeCurrentUser } from '../redux/auth';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -63,7 +64,8 @@ class Navbar extends React.Component {
         <li>
         <button
           className="navbar-btn btn btn-default"
-          onClick={this.props.logout}>
+          onClick={this.props.logout}
+          >
           logout
         </button>
         </li>
@@ -78,9 +80,12 @@ const mapState = null;
 
 const mapDispatch = (dispatch, ownProps) => ({
   logout: () => {
-    console.log('You signed out. Sorta.');
+    dispatch(removeCurrentUser())
     ownProps.history.push('/');
   }
 });
 
 export default withRouter(connect(mapState, mapDispatch)(Navbar));
+
+
+// disabled={!!this.props.session.length}

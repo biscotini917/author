@@ -88,8 +88,10 @@ class Login extends React.Component {
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Log in' });
-const mapDispatch = (dispatch, ownProps) => ({
-  login: credentials => dispatch(loginFromReducer(credentials, ownProps.history))
-});
+const mapDispatch = (dispatch, ownProps) => (
+  {
+    login: credentials => dispatch(loginFromReducer(credentials, ownProps.history))
+  }
+);
 
 export default connect(mapState, mapDispatch)(Login);

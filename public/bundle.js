@@ -24778,7 +24778,7 @@ module.exports = function spread(callback) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.login = undefined;
+exports.login = exports.removeCurrentUser = undefined;
 exports.default = reducer;
 
 var _axios = __webpack_require__(23);
@@ -24789,13 +24789,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //action types
 var SET_CURRENT_USER = 'SET_CURRENT_USER';
+var REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 
 var setCurrentUser = function setCurrentUser(user) {
   var action = {
     type: SET_CURRENT_USER,
     user: user
   };
-  console.log(action, 'action from setCurrentUser');
+  return action;
+};
+
+var removeCurrentUser = exports.removeCurrentUser = function removeCurrentUser() {
+  var action = {
+    type: REMOVE_CURRENT_USER
+  };
   return action;
 };
 
@@ -24806,6 +24813,8 @@ function reducer() {
   switch (action.type) {
     case SET_CURRENT_USER:
       return action.user;
+    case REMOVE_CURRENT_USER:
+      return {};
     default:
       return currentUser;
   }
@@ -46437,6 +46446,8 @@ var _reactRedux = __webpack_require__(6);
 
 var _reactRouterDom = __webpack_require__(17);
 
+var _auth = __webpack_require__(122);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46559,7 +46570,8 @@ var Navbar = function (_React$Component) {
             'button',
             {
               className: 'navbar-btn btn btn-default',
-              onClick: this.props.logout },
+              onClick: this.props.logout
+            },
             'logout'
           )
         )
@@ -46577,13 +46589,15 @@ var mapState = null;
 var mapDispatch = function mapDispatch(dispatch, ownProps) {
   return {
     logout: function logout() {
-      console.log('You signed out. Sorta.');
+      dispatch((0, _auth.removeCurrentUser)());
       ownProps.history.push('/');
     }
   };
 };
 
 exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapState, mapDispatch)(Navbar));
+
+// disabled={!!this.props.session.length}
 
 /***/ }),
 /* 160 */
