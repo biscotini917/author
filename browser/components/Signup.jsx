@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { signUp } from '../redux/auth';
+import axios from 'axios';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -7,12 +9,16 @@ class Signup extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onSignupSubmit = this.onSignupSubmit.bind(this);
+    this.onSignUpSubmit = this.onSignUpSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      email: '',
+      password: ''
+    }
   }
 
   handleChange(event) {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   render() {
@@ -20,7 +26,7 @@ class Signup extends React.Component {
     return (
       <div className="signin-container">
         <div className="buffer local">
-          <form onSubmit={this.onSignupSubmit}>
+          <form onSubmit={this.onSignUpSubmit}>
             <div className="form-group">
               <label>email</label>
               <input
@@ -63,16 +69,27 @@ class Signup extends React.Component {
     );
   }
 
-  onSignupSubmit(event) {
+  onSignUpSubmit(event) {
     event.preventDefault();
-    const { message } = this.props;
-    console.log(`${message} isn't implemented yet`);
+    this.props.signUp({
+      email: event.target.email.value,
+      password: event.target.password.value
+    })
+
+    this.setState({
+      email: '',
+      password: ''
+    })
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Sign up' });
-const mapDispatch = null;
+const mapDispatch = (dispatch, ownProps) => (
+  {
+    signUp: credentials => dispatch(signUp(credentials, ownProps.history))
+  }
+)
 
 export default connect(mapState, mapDispatch)(Signup);

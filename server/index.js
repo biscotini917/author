@@ -25,35 +25,11 @@ app.use('/api', function (req, res, next) {
   next();
 });
 
-app.post('/login', (req, res, next) => {
-  User.findOne({
-    where: req.body
-  })
-    .then(user => {
-      if (!user) {
-        res.sendStatus(401)
-      } else {
-        req.session.userId = user.id;
-        res.status(200).json(user)
-      }
-    })
-      .catch(next)
-})
-
-app.post('/signup', (req, res, next) => {
-  User.create(req.body)
-    .then(user => {
-      req.session.userId = user.id;
-      res.status(201).json(user)
-    })
-    .catch(next)
-})
 
 /* "Enhancing" middleware (does not send response, server-side effects only) */
 app.use(volleyball);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 
 /* "Responding" middleware (may send a response back to client) */
 app.use('/api', require('./api'));

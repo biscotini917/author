@@ -73,11 +73,7 @@ class Login extends React.Component {
 
   onLoginSubmit(event) {
     event.preventDefault();
-    this.props.login({
-      email: event.target.email.value,
-      password: event.target.password.value
-    })
-
+    this.props.login(this.state)
     this.setState({
       email: '',
       password: ''

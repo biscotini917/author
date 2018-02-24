@@ -14,6 +14,7 @@ router.param('id', (req, res, next, id) => {
 });
 
 router.get('/', (req, res, next) => {
+  console.log('backend get route for all users')
   User.findAll()
     .then(users => res.json(users))
     .catch(next);

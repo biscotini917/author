@@ -37,8 +37,11 @@ class Navbar extends React.Component {
                 <NavLink to="/stories" activeClassName="active">stories</NavLink>
               </li>
             </ul>
-            { this.renderLogout() }
-            { this.renderLoginSignup() }
+            {
+              this.props.hasCurrentlyLoggedInUser
+              ? this.renderLogout()
+              : this.renderLoginSignup()
+            }
           </div>
         </div>
       </nav>
@@ -76,7 +79,9 @@ class Navbar extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = null;
+const mapState = (storeState) => ({
+  hasCurrentlyLoggedInUser: storeState.currentUser.hasOwnProperty('id')
+});
 
 const mapDispatch = (dispatch, ownProps) => ({
   logout: () => {

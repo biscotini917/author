@@ -31,12 +31,29 @@ export default function reducer (currentUser = {}, action) {
 }
 
 export const login = (credentials, history) => dispatch => {
-  axios.post('/login', credentials)
+  console.log('credentials', credentials, history)
+  axios.put('/api/sessions', credentials)
     .then(res => setUserAndRedirect(res.data, history, dispatch))
     .catch(err => console.error(`Logging in with ${credentials.email} and ${credentials.password} was unsuccesful`, err));
+};
+
+export const signUp = (user, history) => dispatch => {
+  console.log('user', user, 'history', history)
+  axios.post('/api/sessions', user)
+  .then(res => setUserAndRedirect(res.data, history, dispatch))
+  .catch(err => console.error(`Creating user: ${user} unsuccesful`, err));
 };
 
 function setUserAndRedirect (user, history, dispatch) {
   dispatch(setCurrentUser(user));
   history.push(`/users/${user.id}`)
+}
+
+export const fetchCurrentUser = () => dispatch => {
+  console.log('fetching current user')
+  axios.get('/api/sessions')
+    .then(res => {
+      console.log(res.data, 'data from axios')
+    dispatch(setCurrentUser(res.data));
+    })
 }
