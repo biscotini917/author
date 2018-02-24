@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { User } = require('../db/models')
 
-//signup
+//signUp
 router.post('/', (req, res, next) => {
-  console.log(req.body, 'am i here....backend route')
+  console.log(req.body, 'am i here....backEnd route')
   User.create(req.body)
     .then(newUser => {
       req.session.currentLoggedInUserId = newUser.id;
@@ -32,7 +32,9 @@ router.put('/', (req, res, next) => {
 
 //current user
 router.get('/', (req, res, next) => {
-  if (req.session.hasOwnProperty('currentLoggedInUserId')) {
+  if (req.user) {
+    res.json(req.user)
+  } else  if (req.session.hasOwnProperty('currentLoggedInUserId')) {
     User.findById(req.session.currentLoggedInUserId)
       .then(currentUser => {
         res.json(currentUser)

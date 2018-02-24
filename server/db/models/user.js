@@ -18,7 +18,8 @@ const User = db.define('user', {
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
-  }
+  },
+  googleProfileId: Sequelize.STRING
 }, {
   scopes: {
     populated: () => ({
